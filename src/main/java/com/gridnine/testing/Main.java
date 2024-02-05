@@ -36,7 +36,7 @@ public class Main {
     }
 
     // Метод для исключения перелетов, у которых вылет произошел до текущего момента времени
-    private static List<Flight> excludeFlightsBeforeNow(List<Flight> flights) {
+    static List<Flight> excludeFlightsBeforeNow(List<Flight> flights) {
         LocalDateTime now = LocalDateTime.now();
         return flights.stream()
                 .filter(flight -> flight.getSegments().stream()
@@ -45,7 +45,7 @@ public class Main {
     }
 
     // Метод для исключения перелетов, у которых сегменты имеют дату прилета раньше даты вылета
-    private static List<Flight> excludeFlightsWithInvalidSegments(List<Flight> flights) {
+    static List<Flight> excludeFlightsWithInvalidSegments(List<Flight> flights) {
         return flights.stream()
                 .filter(flight -> flight.getSegments().stream()
                         .allMatch(segment -> segment.getArrivalDate().isAfter(segment.getDepartureDate())))
@@ -53,14 +53,14 @@ public class Main {
     }
 
     // Метод для исключения перелетов, у которых общее время на земле превышает 2 часа
-    private static List<Flight> excludeFlightsWithExcessiveGroundTime(List<Flight> flights) {
+    static List<Flight> excludeFlightsWithExcessiveGroundTime(List<Flight> flights) {
         return flights.stream()
                 .filter(flight -> calculateTotalGroundTime(flight) <= 2 * 60)
                 .collect(Collectors.toList());
     }
 
     // Метод для расчета общего времени на земле между сегментами перелета
-    private static int calculateTotalGroundTime(Flight flight) {
+    static int calculateTotalGroundTime(Flight flight) {
         int totalGroundTime = 0;
         List<Segment> segments = flight.getSegments();
         int numSegments = segments.size();
